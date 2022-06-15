@@ -31,13 +31,13 @@
 *.out
 *.app
 
-# # Ignore all
-# *
-# # Unignore all with extensions
-# !*.*
-# # Unignore all dirs
-# !*/
-# # Unignore all makefiles
-# !Makefile
-# # Ignore VSCode config
-# .vscode
+# Ignore all
+*
+# Unignore all with extensions
+!*.*
+# Unignore all dirs
+!*/
+# Unignore all makefiles
+!Makefile
+# Ignore VSCode config
+.vscode
