@@ -1,4 +1,4 @@
-#include "sudoku.h"
+#include "nonogram.h"
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -13,7 +13,7 @@ int SOLVED_PUZZLE[81] = {8, 6, 4, 3, 7, 1, 2, 5, 9, 3, 2, 5, 8, 4, 9, 7, 6,
                          9, 1, 6, 6, 8, 9, 7, 3, 4, 1, 2, 5, 7, 1, 3, 5, 2,
                          8, 6, 9, 4, 5, 4, 2, 9, 1, 6, 3, 7, 8};
 
-TEST(SudokuSuite, singePuzzle) {
+TEST(NonogramSuite, singePuzzle) {
   int result_puzzle[81];
   solvePuzzle(UNSOLVED_PUZZLE, result_puzzle);
   for (int i = 0; i < 81; ++i) {

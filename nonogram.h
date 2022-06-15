@@ -1,5 +1,5 @@
-#ifndef SUDOKU_H
-#define SUDOKU_H
+#ifndef NONOGRAM_H
+#define NONOGRAM_H
 
 extern const int box_start_indices[9];
 

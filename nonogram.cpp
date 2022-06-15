@@ -1,4 +1,4 @@
-#include "sudoku.h"
+#include "nonogram.h"
 #include <iostream>
 #include <string>
 

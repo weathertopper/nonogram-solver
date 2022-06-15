@@ -1,12 +1,12 @@
 format:
 	clang-format -i *.cpp *.h
 
-run-sudoku:  format
-	@rm sudoku ||:
-	g++ -std=c++11 sudoku.cpp sudoku_run.cpp -o sudoku
-	./sudoku
+run-nonogram:  format
+	@rm nonogram ||:
+	g++ -std=c++11 nonogram.cpp nonogram_run.cpp -o nonogram
+	./nonogram
 
 test: format
-	rm sudoku_test || true
-	g++ -std=c++11 sudoku.cpp sudoku_test.cpp -lgtest -lgtest_main -pthread -o sudoku_test
-	./sudoku_test
+	rm nonogram_test || true
+	g++ -std=c++11 nonogram.cpp nonogram_test.cpp -lgtest -lgtest_main -pthread -o nonogram_test
+	./nonogram_test
