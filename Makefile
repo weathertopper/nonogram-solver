@@ -1,7 +1,7 @@
 format:
 	clang-format -i *.cpp *.h
 
-run-nonogram:  format
+run:  format
 	@rm nonogram ||:
 	g++ -std=c++11 nonogram.cpp nonogram_run.cpp -o nonogram
 	./nonogram
