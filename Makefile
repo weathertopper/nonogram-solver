@@ -4,7 +4,7 @@ format:
 run:  format
 	@rm nonogram ||:
 	g++ -std=c++11 nonogram.cpp nonogram_run.cpp -o nonogram
-	./nonogram
+	./nonogram $(IN_FILE) $(OUT_FILE)
 
 test: format
 	rm nonogram_test || true

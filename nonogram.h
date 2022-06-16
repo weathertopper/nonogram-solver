@@ -1,26 +1,30 @@
 #ifndef NONOGRAM_H
 #define NONOGRAM_H
 
-extern const int box_start_indices[9];
+#include <string>
 
-void getRowVals(int *puzzle, int row_number, int *row_vals);
+void stringToCriteriaArray(std::string crit_as_string, int **criteria);
 
-void getColVals(int *puzzle, int col_number, int *col_vals);
+void buildPuzzleFromFile(std::string file_path, int *col_count, int *row_count,
+                         int **col_criteria, int **row_criteria,
+                         char *empty_puzzle);
 
-void getBoxVals(int *puzzle, int box_number, int *box_vals);
+void solvePuzzle(std::string input_file_path, std::string output_file_path);
 
-void printSubsection(int *subsection);
+void getRowVals(char *puzzle, int row_number, char *row_vals);
 
-bool isSubsectionValid(int *subsection);
+void getColVals(char *puzzle, int col_number, char *col_vals);
 
-bool isPuzzleValid(int *puzzle);
+int *getCriteria(int *criteria_arr, int position);
 
-void copyPuzzle(int *original_puzzle, int *copy_puzzle);
+bool isSubsectionValid(char *subsection);
 
-int findFirstZero(int *puzzle);
+bool isPuzzleValid(char *puzzle);
 
-bool solvePuzzle(int *puzzle, int *solved_puzzle);
+void copyPuzzle(char *original_puzzle, char *copy_puzzle);
 
-void prettyPrint(int *puzzle);
+int findFirstUnsolvedSquare(char *puzzle);
+
+void prettyPrint(char *puzzle);
 
 #endif

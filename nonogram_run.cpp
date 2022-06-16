@@ -1,13 +1,25 @@
 #include "nonogram.h"
 #include <chrono>
+#include <fstream>
 #include <iostream>
+#include <string>
 
-int main() {
+int main(int argc, char *argv[]) {
+
   std::chrono::steady_clock::time_point begin =
       std::chrono::steady_clock::now();
-  bool solved = true; // solvePuzzle(please_solve, solved_puzzle);
+
+  if (argc < 3) {
+    std::cout << "ERROR: Missing IN_FILE and/or OUT_FILE parameters. Exiting.";
+    return -1;
+  }
+
+  std::string input_file_path = argv[1];
+  std::string output_file_path = argv[2];
+
+  solvePuzzle(input_file_path, output_file_path);
+
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-  std::cout << solved << std::endl;
 
   int seconds =
       std::chrono::duration_cast<std::chrono::seconds>(end - begin).count();
