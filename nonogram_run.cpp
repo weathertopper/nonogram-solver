@@ -1,7 +1,9 @@
 #include "nonogram.h"
 #include <chrono>
+#include <cmath>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 int main(int argc, char *argv[]) {
@@ -17,7 +19,28 @@ int main(int argc, char *argv[]) {
   std::string input_file_path = argv[1];
   std::string output_file_path = argv[2];
 
-  solvePuzzle(input_file_path, output_file_path);
+  std::string file_str = readFileToString(input_file_path);
+
+  std::istringstream iss(file_str);
+  std::string count_str;
+  std::getline(iss, count_str);
+  int col_count = std::stoi(count_str);
+  std::getline(iss, count_str);
+  int row_count = std::stoi(count_str);
+  std::string col_crit_str;
+  std::getline(iss, col_crit_str);
+  std::string row_crit_str;
+  std::getline(iss, row_crit_str);
+
+  std::cout << "col_count: " << col_count << std::endl;
+  std::cout << "row_count: " << row_count << std::endl;
+//   int max_crit_len = std::ceil((col_count * 1.0) / 2);
+//   std::cout << "max_crit_len: " << max_crit_len << std::endl;
+  std::cout << "col_crit_str: " << col_crit_str << std::endl;
+  std::cout << "row_crit_str: " << row_crit_str << std::endl;
+  //   std::cout << "empty_puzzle: " << empty_puzzle << std::endl;
+
+  //   solvePuzzle(file_str, output_file_path);
 
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 

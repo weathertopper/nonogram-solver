@@ -4,78 +4,92 @@
 #include <iostream>
 #include <string>
 
-void stringToCriteriaArray(std::string crit_as_string, int **criteria) {}
-
-void buildPuzzleFromFile(std::string file_path, int *col_count, int *row_count,
-                         int ***col_criteria, int ***row_criteria,
-                         char *empty_puzzle) {
-  //   //   int i = 8;
-  //   int count = 123;
-  //   *col_count = count;
-  //   row_count = &count;
-  std::ifstream input_file(file_path); // open the file
-  if (input_file.is_open() && input_file.good()) {
-    std::string line;
-    for (int line_num = 0; getline(input_file, line) && line_num < 4;
-         line_num++) {
-      switch (line_num) {
-      case 0:
-        *col_count = std::stoi(line);
-        break;
-      case 1:
-        *row_count = std::stoi(line);
-        break;
-      case 2: {
-        // do something special here
-        std::cout << "col_crit" << std::endl;
-        std::cout << *col_count << std::endl;
-        int max_crit_len = std::ceil((*col_count * 1.0) / 2);
-        std::cout << "max: " << max_crit_len << std::endl;
-        col_criteria = new int **[*col_count];
-        for (int i = 0; i < *col_count; i++) {
-          col_criteria[i] = new int *[max_crit_len];
-        }
-        for (int i = 0; i < *col_count; i++) {
-          for (int j = 0; j < max_crit_len; j++) {
-            int val = i + j;
-            col_criteria[i][j] = val;
-          }
-        }
-        break;
-      }
-      case 3: {
-        // do same something special here
-        std::cout << "row_crit" << std::endl;
-        break;
-      }
-      }
-    }
-    input_file.close();
-    int max_crit_len = std::ceil((*col_count * 1.0) / 2);
-    for (int i = 0; i < *col_count; i++) {
-      for (int j = 0; j < max_crit_len; j++) {
-        std::cout << "col_criteria[" << i << "][" << j << "]=" << std::endl;
-        std::cout << *col_criteria << std::endl;
-        std::cout << *col_criteria[i] << std::endl;
-        std::cout << *col_criteria[i][j] << std::endl;
-      }
-    }
-
-  } else {
-    std::cout << "ERROR: Failed to open file.";
+std::string readFileToString(std::string file_path) {
+  std::ifstream input_file(file_path);
+  std::string line_str;
+  std::string file_str;
+  while (std::getline(input_file, line_str)) {
+    file_str += line_str;
+    file_str.push_back('\n');
   }
+  input_file.close();
+  return file_str;
 }
 
-void solvePuzzle(std::string input_file_path, std::string output_file_path) {
-  std::cout << "INPUT FILE: " << input_file_path << std::endl;
+void stringToCriteriaArray(std::string crit_as_string, int **criteria) {}
+
+// void buildPuzzleFromFile(std::string file_path, int *col_count, int
+// *row_count,
+//                          int ***col_criteria, int ***row_criteria,
+//                          char *empty_puzzle) {
+//   //   //   int i = 8;
+//   //   int count = 123;
+//   //   *col_count = count;
+//   //   row_count = &count;
+//   std::ifstream input_file(file_path); // open the file
+//   if (input_file.is_open() && input_file.good()) {
+//     std::string line;
+//     for (int line_num = 0; getline(input_file, line) && line_num < 4;
+//          line_num++) {
+//       switch (line_num) {
+//       case 0:
+//         *col_count = std::stoi(line);
+//         break;
+//       case 1:
+//         *row_count = std::stoi(line);
+//         break;
+//       case 2: {
+//         // do something special here
+//         std::cout << "col_crit" << std::endl;
+//         std::cout << *col_count << std::endl;
+//         int max_crit_len = std::ceil((*col_count * 1.0) / 2);
+//         std::cout << "max: " << max_crit_len << std::endl;
+//         col_criteria = new int **[*col_count];
+//         for (int i = 0; i < *col_count; i++) {
+//           col_criteria[i] = new int *[max_crit_len];
+//         }
+//         for (int i = 0; i < *col_count; i++) {
+//           for (int j = 0; j < max_crit_len; j++) {
+//             int val = i + j;
+//             col_criteria[i][j] = val;
+//           }
+//         }
+//         break;
+//       }
+//       case 3: {
+//         // do same something special here
+//         std::cout << "row_crit" << std::endl;
+//         break;
+//       }
+//       }
+//     }
+//     input_file.close();
+//     int max_crit_len = std::ceil((*col_count * 1.0) / 2);
+//     for (int i = 0; i < *col_count; i++) {
+//       for (int j = 0; j < max_crit_len; j++) {
+//         std::cout << "col_criteria[" << i << "][" << j << "]=" << std::endl;
+//         std::cout << *col_criteria << std::endl;
+//         std::cout << *col_criteria[i] << std::endl;
+//         std::cout << *col_criteria[i][j] << std::endl;
+//       }
+//     }
+
+//   } else {
+//     std::cout << "ERROR: Failed to open file.";
+//   }
+// }
+
+// int getCount(std::string file_path, int file_row) {}
+
+void solvePuzzle(std::string file_str, std::string output_file_path) {
+  std::cout << "INPUT FILE STR:\n" << file_str << std::endl;
   std::cout << "OUTPUT FILE: " << output_file_path << std::endl;
   int col_count, row_count;
-  int **col_criteria,
-      **row_criteria; // just can't init this in a function. need to get row and
-                      // col size, then get back to here, then
+  int **col_criteria, **row_criteria;
   char empty_puzzle;
-  buildPuzzleFromFile(input_file_path, &col_count, &row_count, &col_criteria,
-                      &row_criteria, &empty_puzzle);
+  //   buildPuzzleFromFile(input_file_path, &col_count, &row_count,
+  //   &col_criteria,
+  //                       &row_criteria, &empty_puzzle);
   std::cout << "col_count: " << col_count << std::endl;
   std::cout << "row_count: " << row_count << std::endl;
   int max_crit_len = std::ceil((col_count * 1.0) / 2);

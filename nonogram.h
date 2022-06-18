@@ -5,11 +5,15 @@
 
 void stringToCriteriaArray(std::string crit_as_string, int **criteria);
 
+std::string readFileToString(std::string file_path);
+
+int getCount(std::string file_path, int file_row);
+
 void buildPuzzleFromFile(std::string file_path, int *col_count, int *row_count,
                          int **col_criteria, int **row_criteria,
                          char *empty_puzzle);
 
-void solvePuzzle(std::string input_file_path, std::string output_file_path);
+void solvePuzzle(std::string file_str, std::string output_file_path);
 
 void getRowVals(char *puzzle, int row_number, char *row_vals);
 
