@@ -47,7 +47,6 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
 
   puzzle[1][1] = 'y';
-  std::cout << "start" << std::endl;
   prettyPrint(puzzle);
 
   copyPuzzle(puzzle, solved_puzzle);
@@ -56,11 +55,21 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
   prettyPrint(solved_puzzle);
 
-  puzzle[2][2] = 'n';
+  puzzle[1][2] = 'n';
   std::cout << "edited" << std::endl;
   prettyPrint(puzzle);
   std::cout << std::endl;
   prettyPrint(solved_puzzle);
+
+  std::cout << std::endl;
+  std::vector<char> row_vals;
+  getRowVals(1, puzzle, row_vals);
+  printVals(row_vals);
+
+  std::cout << std::endl;
+  std::vector<char> col_vals;
+  getColVals(1, puzzle, col_vals);
+  printVals(col_vals);
 
   // here
 

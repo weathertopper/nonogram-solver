@@ -70,6 +70,13 @@ void prettyPrint(std::vector<std::vector<char>> &puzzle) {
   }
 }
 
+void printVals(std::vector<char> &vals) {
+  for (int i = 0; i < vals.size(); i++) {
+    std::cout << vals[i] << " ";
+  }
+  std::cout << std::endl;
+}
+
 void buildPuzzleFromFile(std::string input_file_path, int &col_count,
                          int &row_count,
                          std::vector<std::vector<int>> &col_crit,
@@ -109,11 +116,24 @@ void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
   }
 }
 
+// assumes rectangular puzzle
+void getRowVals(int row_index, std::vector<std::vector<char>> &puzzle,
+                std::vector<char> &vals) {
+  int col_count = puzzle[0].size();
+  for (int j = 0; j < col_count; j++) {
+    vals.push_back(puzzle[row_index][j]);
+  }
+}
+
+void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
+                std::vector<char> &vals) {
+  int row_count = puzzle.size();
+  for (int i = 0; i < row_count; i++) {
+    vals.push_back(puzzle[i][col_index]);
+  }
+}
+
 void solvePuzzle(std::string file_str, std::string output_file_path) {}
-
-void getRowVals(char *puzzle, int row_number, char *row_vals) {}
-
-void getColVals(char *puzzle, int col_number, char *col_vals) {}
 
 int *getCriteria(int *criteria_arr, int position) {
   int *i;

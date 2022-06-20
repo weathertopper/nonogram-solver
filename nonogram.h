@@ -31,11 +31,15 @@ void solvePuzzle(std::vector<std::vector<int>> &col_crit,
 
 void prettyPrint(std::vector<std::vector<char>> &puzzle);
 
+void printVals(std::vector<char> &vals);
+
 int getCount(std::string file_path, int file_row);
 
-void getRowVals(char *puzzle, int row_number, char *row_vals);
+void getRowVals(int row_index, std::vector<std::vector<char>> &puzzle,
+                std::vector<char> &vals);
 
-void getColVals(char *puzzle, int col_number, char *col_vals);
+void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
+                std::vector<char> &vals);
 
 int *getCriteria(int *criteria_arr, int position);
 
