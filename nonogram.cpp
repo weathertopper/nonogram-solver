@@ -99,6 +99,16 @@ void buildPuzzleFromFile(std::string input_file_path, int &col_count,
   initializeEmptyPuzzle(col_count, row_count, puzzle);
 }
 
+void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
+                std::vector<std::vector<char>> &copy_puzzle) {
+  for (int i = 0; i < original_puzzle.size(); i++) {
+    copy_puzzle.push_back(std::vector<char>());
+    for (int j = 0; j < original_puzzle[i].size(); j++) {
+      copy_puzzle[i].push_back(original_puzzle[i][j]);
+    }
+  }
+}
+
 void solvePuzzle(std::string file_str, std::string output_file_path) {}
 
 void getRowVals(char *puzzle, int row_number, char *row_vals) {}
@@ -113,8 +123,6 @@ int *getCriteria(int *criteria_arr, int position) {
 bool isSubsectionValid(char *subsection) { return true; }
 
 bool isPuzzleValid(char *puzzle) { return true; }
-
-void copyPuzzle(char *original_puzzle, char *copy_puzzle) {}
 
 int findFirstUnsolvedSquare(char *puzzle) { return 0; }
 

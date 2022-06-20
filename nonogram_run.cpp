@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
   int col_count, row_count;
   std::vector<std::vector<int>> col_crit, row_crit;
-  std::vector<std::vector<char>> puzzle;
+  std::vector<std::vector<char>> puzzle, solved_puzzle;
 
   buildPuzzleFromFile(input_file_path, col_count, row_count, col_crit, row_crit,
                       puzzle);
@@ -46,7 +46,23 @@ int main(int argc, char *argv[]) {
   }
   std::cout << std::endl;
 
+  puzzle[1][1] = 'y';
+  std::cout << "start" << std::endl;
   prettyPrint(puzzle);
+
+  copyPuzzle(puzzle, solved_puzzle);
+  std::cout << "copied" << std::endl;
+  prettyPrint(puzzle);
+  std::cout << std::endl;
+  prettyPrint(solved_puzzle);
+
+  puzzle[2][2] = 'n';
+  std::cout << "edited" << std::endl;
+  prettyPrint(puzzle);
+  std::cout << std::endl;
+  prettyPrint(solved_puzzle);
+
+  // here
 
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 

@@ -24,6 +24,11 @@ void buildPuzzleFromFile(std::string file_path, int &col_count, int &row_count,
                          std::vector<std::vector<int>> &row_crit,
                          std::vector<std::vector<char>> &puzzle);
 
+void solvePuzzle(std::vector<std::vector<int>> &col_crit,
+                 std::vector<std::vector<int>> &row_crit,
+                 std::vector<std::vector<char>> &puzzle,
+                 std::vector<std::vector<char>> &solved_puzzle);
+
 void prettyPrint(std::vector<std::vector<char>> &puzzle);
 
 int getCount(std::string file_path, int file_row);
@@ -38,7 +43,8 @@ bool isSubsectionValid(char *subsection);
 
 bool isPuzzleValid(char *puzzle);
 
-void copyPuzzle(char *original_puzzle, char *copy_puzzle);
+void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
+                std::vector<std::vector<char>> &copy_puzzle);
 
 int findFirstUnsolvedSquare(char *puzzle);
 
