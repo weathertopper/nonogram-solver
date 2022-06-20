@@ -41,7 +41,9 @@ void getRowVals(int row_index, std::vector<std::vector<char>> &puzzle,
 void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
                 std::vector<char> &vals);
 
-int *getCriteria(int *criteria_arr, int position);
+// should work for row or col criteria
+std::vector<int> getCriteria(int crit_index,
+                             std::vector<std::vector<int>> &crit_vect);
 
 bool isSubsectionValid(char *subsection);
 

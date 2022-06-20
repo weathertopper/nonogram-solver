@@ -71,6 +71,20 @@ int main(int argc, char *argv[]) {
   getColVals(1, puzzle, col_vals);
   printVals(col_vals);
 
+  std::vector<int> some_col_crit = getCriteria(0, col_crit);
+  std::cout << "col crit i = 0" << std::endl;
+  for (int j = 0; j < some_col_crit.size(); j++) {
+    std::cout << some_col_crit[j] << " ";
+  }
+  std::cout << std::endl;
+
+  std::vector<int> some_row_crit = getCriteria(4, row_crit);
+  std::cout << "row crit i = 4" << std::endl;
+  for (int j = 0; j < some_row_crit.size(); j++) {
+    std::cout << some_row_crit[j] << " ";
+  }
+  std::cout << std::endl;
+
   // here
 
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();

@@ -61,22 +61,6 @@ void initializeEmptyPuzzle(int col_count, int row_count,
   }
 }
 
-void prettyPrint(std::vector<std::vector<char>> &puzzle) {
-  for (int i = 0; i < puzzle.size(); i++) {
-    for (int j = 0; j < puzzle[i].size(); j++) {
-      std::cout << puzzle[i][j] << " ";
-    }
-    std::cout << std::endl;
-  }
-}
-
-void printVals(std::vector<char> &vals) {
-  for (int i = 0; i < vals.size(); i++) {
-    std::cout << vals[i] << " ";
-  }
-  std::cout << std::endl;
-}
-
 void buildPuzzleFromFile(std::string input_file_path, int &col_count,
                          int &row_count,
                          std::vector<std::vector<int>> &col_crit,
@@ -106,6 +90,22 @@ void buildPuzzleFromFile(std::string input_file_path, int &col_count,
   initializeEmptyPuzzle(col_count, row_count, puzzle);
 }
 
+void prettyPrint(std::vector<std::vector<char>> &puzzle) {
+  for (int i = 0; i < puzzle.size(); i++) {
+    for (int j = 0; j < puzzle[i].size(); j++) {
+      std::cout << puzzle[i][j] << " ";
+    }
+    std::cout << std::endl;
+  }
+}
+
+void printVals(std::vector<char> &vals) {
+  for (int i = 0; i < vals.size(); i++) {
+    std::cout << vals[i] << " ";
+  }
+  std::cout << std::endl;
+}
+
 void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
                 std::vector<std::vector<char>> &copy_puzzle) {
   for (int i = 0; i < original_puzzle.size(); i++) {
@@ -133,12 +133,12 @@ void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
   }
 }
 
-void solvePuzzle(std::string file_str, std::string output_file_path) {}
-
-int *getCriteria(int *criteria_arr, int position) {
-  int *i;
-  return i;
+std::vector<int> getCriteria(int crit_index,
+                             std::vector<std::vector<int>> &crit_vect) {
+  return crit_vect[crit_index];
 }
+
+void solvePuzzle(std::string file_str, std::string output_file_path) {}
 
 bool isSubsectionValid(char *subsection) { return true; }
 
