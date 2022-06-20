@@ -3,17 +3,30 @@
 
 #include <string>
 
-void stringToCriteriaArray(std::string crit_as_string, int **criteria);
+extern const char start_char;
+extern const char end_char;
+extern const char delim;
+
+extern const char unknown_char;
+extern const char filled_char;
+extern const char empty_char;
 
 std::string readFileToString(std::string file_path);
 
+void loadCriteriaArray(std::string crit_as_string,
+                       std::vector<std::vector<int>> &crit_vect);
+
+void initializeEmptyPuzzle(int col_count, int row_count,
+                           std::vector<std::vector<char>> &puzzle);
+
+void buildPuzzleFromFile(std::string file_path, int &col_count, int &row_count,
+                         std::vector<std::vector<int>> &col_crit,
+                         std::vector<std::vector<int>> &row_crit,
+                         std::vector<std::vector<char>> &puzzle);
+
+void prettyPrint(std::vector<std::vector<char>> &puzzle);
+
 int getCount(std::string file_path, int file_row);
-
-void buildPuzzleFromFile(std::string file_path, int *col_count, int *row_count,
-                         int **col_criteria, int **row_criteria,
-                         char *empty_puzzle);
-
-void solvePuzzle(std::string file_str, std::string output_file_path);
 
 void getRowVals(char *puzzle, int row_number, char *row_vals);
 
@@ -28,7 +41,5 @@ bool isPuzzleValid(char *puzzle);
 void copyPuzzle(char *original_puzzle, char *copy_puzzle);
 
 int findFirstUnsolvedSquare(char *puzzle);
-
-void prettyPrint(char *puzzle);
 
 #endif

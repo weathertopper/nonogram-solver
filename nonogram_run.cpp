@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 int main(int argc, char *argv[]) {
 
@@ -19,28 +20,33 @@ int main(int argc, char *argv[]) {
   std::string input_file_path = argv[1];
   std::string output_file_path = argv[2];
 
-  std::string file_str = readFileToString(input_file_path);
+  int col_count, row_count;
+  std::vector<std::vector<int>> col_crit, row_crit;
+  std::vector<std::vector<char>> puzzle;
 
-  std::istringstream iss(file_str);
-  std::string count_str;
-  std::getline(iss, count_str);
-  int col_count = std::stoi(count_str);
-  std::getline(iss, count_str);
-  int row_count = std::stoi(count_str);
-  std::string col_crit_str;
-  std::getline(iss, col_crit_str);
-  std::string row_crit_str;
-  std::getline(iss, row_crit_str);
+  buildPuzzleFromFile(input_file_path, col_count, row_count, col_crit, row_crit,
+                      puzzle);
 
   std::cout << "col_count: " << col_count << std::endl;
   std::cout << "row_count: " << row_count << std::endl;
-//   int max_crit_len = std::ceil((col_count * 1.0) / 2);
-//   std::cout << "max_crit_len: " << max_crit_len << std::endl;
-  std::cout << "col_crit_str: " << col_crit_str << std::endl;
-  std::cout << "row_crit_str: " << row_crit_str << std::endl;
-  //   std::cout << "empty_puzzle: " << empty_puzzle << std::endl;
 
-  //   solvePuzzle(file_str, output_file_path);
+  for (int i = 0; i < col_crit.size(); i++) {
+    for (int j = 0; j < col_crit[i].size(); j++) {
+      std::cout << " crit arr[" << i << "][" << j << "]=" << col_crit[i][j];
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+
+  for (int i = 0; i < row_crit.size(); i++) {
+    for (int j = 0; j < row_crit[i].size(); j++) {
+      std::cout << " crit arr[" << i << "][" << j << "]=" << row_crit[i][j];
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+
+  prettyPrint(puzzle);
 
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
