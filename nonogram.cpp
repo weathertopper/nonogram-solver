@@ -133,7 +133,7 @@ void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
   }
 }
 
-std::vector<int> getCriteria(int crit_index,
+std::vector<int> getCriteriaAtIndex(int crit_index,
                              std::vector<std::vector<int>> &crit_vect) {
   return crit_vect[crit_index];
 }

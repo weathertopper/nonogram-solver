@@ -24,16 +24,12 @@ void buildPuzzleFromFile(std::string file_path, int &col_count, int &row_count,
                          std::vector<std::vector<int>> &row_crit,
                          std::vector<std::vector<char>> &puzzle);
 
-void solvePuzzle(std::vector<std::vector<int>> &col_crit,
-                 std::vector<std::vector<int>> &row_crit,
-                 std::vector<std::vector<char>> &puzzle,
-                 std::vector<std::vector<char>> &solved_puzzle);
-
 void prettyPrint(std::vector<std::vector<char>> &puzzle);
 
 void printVals(std::vector<char> &vals);
 
-int getCount(std::string file_path, int file_row);
+void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
+                std::vector<std::vector<char>> &copy_puzzle);
 
 void getRowVals(int row_index, std::vector<std::vector<char>> &puzzle,
                 std::vector<char> &vals);
@@ -42,15 +38,21 @@ void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
                 std::vector<char> &vals);
 
 // should work for row or col criteria
-std::vector<int> getCriteria(int crit_index,
+std::vector<int> getCriteriaAtIndex(int crit_index,
                              std::vector<std::vector<int>> &crit_vect);
 
-bool isSubsectionValid(char *subsection);
+//defined
+//-----
+//undefined
 
-bool isPuzzleValid(char *puzzle);
+void solvePuzzle(std::vector<std::vector<int>> &col_crit,
+                 std::vector<std::vector<int>> &row_crit,
+                 std::vector<std::vector<char>> &puzzle,
+                 std::vector<std::vector<char>> &solved_puzzle);
 
-void copyPuzzle(std::vector<std::vector<char>> &original_puzzle,
-                std::vector<std::vector<char>> &copy_puzzle);
+bool isSubsectionValid(char *subsection); // base this on only row and column
+
+bool isPuzzleValid(char *puzzle); // change this to is puzzle solved (meaning puzzle valid w/ no ?)
 
 int findFirstUnsolvedSquare(char *puzzle);
 
