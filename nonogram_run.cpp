@@ -63,11 +63,13 @@ int main(int argc, char *argv[]) {
 
   std::cout << std::endl;
   std::vector<char> row_vals;
+  std::cout << "print row 1" << std::endl;
   getRowVals(1, puzzle, row_vals);
   printVals(row_vals);
 
   std::cout << std::endl;
   std::vector<char> col_vals;
+  std::cout << "print col 1" << std::endl;
   getColVals(1, puzzle, col_vals);
   printVals(col_vals);
 
@@ -78,8 +80,8 @@ int main(int argc, char *argv[]) {
   }
   std::cout << std::endl;
 
-  std::vector<int> some_row_crit = getCriteriaAtIndex(4, row_crit);
-  std::cout << "row crit i = 4" << std::endl;
+  std::vector<int> some_row_crit = getCriteriaAtIndex(6, row_crit);
+  std::cout << "row crit i = 6" << std::endl;
   for (int j = 0; j < some_row_crit.size(); j++) {
     std::cout << some_row_crit[j] << " ";
   }

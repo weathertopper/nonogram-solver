@@ -13,8 +13,8 @@ extern const char empty_char;
 
 std::string readFileToString(std::string file_path);
 
-void loadCriteriaArray(std::string crit_as_string,
-                       std::vector<std::vector<int>> &crit_vect);
+void loadCriteriaVector(std::string crit_as_string,
+                        std::vector<std::vector<int>> &crit_vect);
 
 void initializeEmptyPuzzle(int col_count, int row_count,
                            std::vector<std::vector<char>> &puzzle);
@@ -37,23 +37,28 @@ void getRowVals(int row_index, std::vector<std::vector<char>> &puzzle,
 void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
                 std::vector<char> &vals);
 
-// should work for row or col criteria
 std::vector<int> getCriteriaAtIndex(int crit_index,
-                             std::vector<std::vector<int>> &crit_vect);
+                                    std::vector<std::vector<int>> &crit_vect);
 
-//defined
+bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect);
+
+bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
+                    int &row_count, std::vector<std::vector<int>> &col_crit,
+                    std::vector<std::vector<int>> &row_crit);
+// defined
 //-----
-//undefined
+// undefined
 
+// follow sudoku format
 void solvePuzzle(std::vector<std::vector<int>> &col_crit,
                  std::vector<std::vector<int>> &row_crit,
                  std::vector<std::vector<char>> &puzzle,
                  std::vector<std::vector<char>> &solved_puzzle);
 
-bool isSubsectionValid(char *subsection); // base this on only row and column
+// hard part
+bool isStraightValid(std::vector<char> &vals, std::vector<int> &crit_vect);
 
-bool isPuzzleValid(char *puzzle); // change this to is puzzle solved (meaning puzzle valid w/ no ?)
-
+// return either tuple or pass in col, row to set and return void
 int findFirstUnsolvedSquare(char *puzzle);
 
 #endif

@@ -10,3 +10,8 @@ test: format
 	rm nonogram_test || true
 	g++ -std=c++11 nonogram.cpp nonogram_test.cpp -lgtest -lgtest_main -pthread -o nonogram_test
 	./nonogram_test
+
+regex: format
+	@rm regex ||:
+	g++ -std=c++11 regex.cpp -o regex
+	./regex

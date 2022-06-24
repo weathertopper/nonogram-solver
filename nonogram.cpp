@@ -3,6 +3,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -13,7 +14,10 @@ const char delim = ',';
 
 const char unknown_char = '?';
 const char filled_char = '#';
-const char empty_char = ' ';
+const char empty_char = '.';
+
+// possible improvement-- flatten puzzle to 1-D vector to see if that improves
+// timing
 
 std::string readFileToString(std::string file_path) {
   std::ifstream input_file(file_path);
@@ -27,8 +31,8 @@ std::string readFileToString(std::string file_path) {
   return file_str;
 }
 
-void loadCriteriaArray(std::string crit_as_string,
-                       std::vector<std::vector<int>> &crit_vect) {
+void loadCriteriaVector(std::string crit_as_string,
+                        std::vector<std::vector<int>> &crit_vect) {
 
   std::string possible_int = "";
   std::string loop_string =
@@ -53,9 +57,9 @@ void loadCriteriaArray(std::string crit_as_string,
 
 void initializeEmptyPuzzle(int col_count, int row_count,
                            std::vector<std::vector<char>> &puzzle) {
-  for (int i = 0; i < col_count; i++) {
+  for (int i = 0; i < row_count; i++) {
     puzzle.push_back(std::vector<char>());
-    for (int j = 0; j < row_count; j++) {
+    for (int j = 0; j < col_count; j++) {
       puzzle[i].push_back(unknown_char);
     }
   }
@@ -85,9 +89,11 @@ void buildPuzzleFromFile(std::string input_file_path, int &col_count,
   std::string row_crit_str;
   std::getline(iss, row_crit_str);
 
-  loadCriteriaArray(col_crit_str, col_crit);
-  loadCriteriaArray(row_crit_str, row_crit);
-  initializeEmptyPuzzle(col_count, row_count, puzzle);
+  loadCriteriaVector(col_crit_str, col_crit);
+  loadCriteriaVector(row_crit_str, row_crit);
+  initializeEmptyPuzzle(
+      col_count, row_count,
+      puzzle); // improvement, init empty or partially-complete puzzle
 }
 
 void prettyPrint(std::vector<std::vector<char>> &puzzle) {
@@ -134,63 +140,68 @@ void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
 }
 
 std::vector<int> getCriteriaAtIndex(int crit_index,
-                             std::vector<std::vector<int>> &crit_vect) {
+                                    std::vector<std::vector<int>> &crit_vect) {
   return crit_vect[crit_index];
 }
 
+bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect) {
+
+  std::string val_string(vals.begin(), vals.end());
+
+  std::string filled;
+  filled += filled_char;
+
+  std::string empty;
+  empty += empty_char;
+
+  std::string zero_plus = "(\\" + empty + "*)";
+  std::string one_plus = "(\\" + empty + ")+";
+  std::string hit = ("(" + filled + ")");
+
+  std::string reg;
+  reg = zero_plus;
+  for (int i = 0; i < crit_vect.size(); i++) {
+    reg += hit + "{" + std::to_string(crit_vect[i]) + "}";
+    if (i != crit_vect.size() - 1) {
+      reg += one_plus;
+    }
+  }
+  reg += zero_plus;
+  std::regex expected_val_string(reg);
+
+  return regex_match(val_string, expected_val_string);
+}
+
+bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int col_count,
+                    int row_count, std::vector<std::vector<int>> &col_crit,
+                    std::vector<std::vector<int>> &row_crit) {
+  for (int i = 0; i < row_count; i++) {
+    std::vector<char> row_vals;
+    getRowVals(i, puzzle, row_vals);
+    std::vector<int> crit_vect = getCriteriaAtIndex(6, row_crit);
+    if (!isStraightSolved(row_vals, crit_vect)) {
+      return false;
+    }
+  }
+  for (int i = 0; i < col_count; i++) {
+    std::vector<char> col_vals;
+    getColVals(i, puzzle, col_vals);
+    std::vector<int> crit_vect = getCriteriaAtIndex(6, col_crit);
+    if (!isStraightSolved(col_vals, crit_vect)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// ---
+
 void solvePuzzle(std::string file_str, std::string output_file_path) {}
 
-bool isSubsectionValid(char *subsection) { return true; }
+bool isStraightValid(char *subsection) { return true; }
 
-bool isPuzzleValid(char *puzzle) { return true; }
-
-int findFirstUnsolvedSquare(char *puzzle) { return 0; }
-
-// const int box_start_indices[9] = {0, 3, 6, 27, 30, 33, 54, 57, 60};
-
-// void getRowVals(int *puzzle, int row_number, int *row_vals) {
-//   int row_indices[9];
-//   int row_ii = 0;
-//   for (int i = row_number * 9; i < (row_number * 9) + 9; ++i) {
-//     row_indices[row_ii++] = i;
-//   }
-//   for (int i = 0; i < 9; ++i) {
-//     row_vals[i] = puzzle[row_indices[i]];
-//   }
-// }
-
-// void getColVals(int *puzzle, int col_number, int *col_vals) {
-//   int col_indices[9];
-//   int col_ii = 0;
-//   for (int i = col_number; i < 81; i += 9) {
-//     col_indices[col_ii++] = i;
-//   }
-//   for (int i = 0; i < 9; ++i) {
-//     col_vals[i] = puzzle[col_indices[i]];
-//   }
-// }
-
-// void getBoxVals(int *puzzle, int box_number, int *box_vals) {
-//   int box_indices[9];
-//   int box_ii = 0;
-//   int shift_index = box_start_indices[box_number];
-//   for (int s = 0; s < 3; s++) {
-//     for (int i = shift_index; i < shift_index + 3; ++i) {
-//       box_indices[box_ii++] = i;
-//     }
-//     shift_index += 9;
-//   }
-//   for (int i = 0; i < 9; ++i) {
-//     box_vals[i] = puzzle[box_indices[i]];
-//   }
-// }
-
-// void printSubsection(int *subsection) {
-//   for (int i = 0; i < 9; ++i) {
-//     std::cout << subsection[i] << " ";
-//   }
-//   std::cout << std::endl;
-// }
+// return either tuple or pass in col, row to set and return void
+int findFirstQuestionableSquare(char *puzzle) { return 0; }
 
 // bool isSubsectionValid(int *subsection) {
 //   int zero_to_nine[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -229,12 +240,6 @@ int findFirstUnsolvedSquare(char *puzzle) { return 0; }
 //   return true;
 // }
 
-// void copyPuzzle(int *original_puzzle, int *copy_puzzle) {
-//   for (int i = 0; i < 81; ++i) {
-//     copy_puzzle[i] = original_puzzle[i];
-//   }
-// }
-
 // int findFirstZero(int *puzzle) {
 //   for (int i = 0; i < 81; ++i) {
 //     if (puzzle[i] == 0) {
@@ -266,21 +271,4 @@ int findFirstUnsolvedSquare(char *puzzle) { return 0; }
 //   //     return true;
 //   //   }
 //   //   return false;
-// }
-
-// void prettyPrint(int *puzzle) {
-//   std::string pretty = "";
-//   for (int i = 0; i < 81; ++i) {
-//     pretty += std::to_string(puzzle[i]);
-//     if ((i + 1) % 3 == 0) {
-//       pretty += "  ";
-//     }
-//     if ((i + 1) % 9 == 0) {
-//       pretty += "\n";
-//     }
-//     if ((i + 1) % 27 == 0) {
-//       pretty += "\n";
-//     }
-//   }
-//   std::cout << pretty << std::endl;
 // }
