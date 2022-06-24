@@ -2,6 +2,7 @@
 #define NONOGRAM_H
 
 #include <string>
+#include <tuple>
 
 extern const char start_char;
 extern const char end_char;
@@ -45,6 +46,10 @@ bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect);
 bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
                     int &row_count, std::vector<std::vector<int>> &col_crit,
                     std::vector<std::vector<int>> &row_crit);
+
+std::tuple<int, int>
+findFirstUnsolvedSquare(std::vector<std::vector<char>> &puzzle);
+
 // defined
 //-----
 // undefined
@@ -57,8 +62,5 @@ void solvePuzzle(std::vector<std::vector<int>> &col_crit,
 
 // hard part
 bool isStraightValid(std::vector<char> &vals, std::vector<int> &crit_vect);
-
-// return either tuple or pass in col, row to set and return void
-int findFirstUnsolvedSquare(char *puzzle);
 
 #endif

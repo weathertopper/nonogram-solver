@@ -6,6 +6,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 const char start_char = '{';
@@ -194,14 +195,24 @@ bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int col_count,
   return true;
 }
 
+std::tuple<int, int>
+findFirstUnsolvedSquare(std::vector<std::vector<char>> &puzzle) {
+  int row, col;
+  for (row = 0; row < puzzle.size(); row++) {
+    for (col = 0; col < puzzle[0].size(); col++) {
+      if (puzzle[row][col] == unknown_char) {
+        return std::make_tuple(row, col);
+      }
+    }
+  }
+  return std::make_tuple(-1, -1);
+}
+
 // ---
 
 void solvePuzzle(std::string file_str, std::string output_file_path) {}
 
 bool isStraightValid(char *subsection) { return true; }
-
-// return either tuple or pass in col, row to set and return void
-int findFirstQuestionableSquare(char *puzzle) { return 0; }
 
 // bool isSubsectionValid(int *subsection) {
 //   int zero_to_nine[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};

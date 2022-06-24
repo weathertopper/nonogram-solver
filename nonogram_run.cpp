@@ -87,6 +87,19 @@ int main(int argc, char *argv[]) {
   }
   std::cout << std::endl;
 
+  for (int i = 0; i < puzzle.size(); i++) {
+    for (int j = 0; j < puzzle[i].size(); j++) {
+      puzzle[i][j] = '#';
+    }
+  }
+
+  puzzle[3][2] = '?';
+  int f_col, f_row;
+
+  std::tie(f_row, f_col) = findFirstUnsolvedSquare(puzzle);
+
+  std::cout << "first ? at row " << f_row << " col " << f_col << std::endl;
+  prettyPrint(puzzle);
   // here
 
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
