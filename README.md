@@ -1,6 +1,6 @@
 # nonogram-solver
 
-C++ script for solving nonogram puzzles. 
+A C++ script for solving nonogram puzzles. 
 
 Input: A file with the column count, the row count, the column criteria, and the row criteria.
 
