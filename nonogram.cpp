@@ -19,8 +19,9 @@ const char empty_char = '.';
 
 const std::vector<char> possible_vals{filled_char, empty_char};
 
-// possible improvement-- flatten puzzle to 1-D vector to see if that improves
-// timing
+// possible improvement--
+// flatten puzzle to 1-D vector
+// to see if that improves timing
 
 std::string readFileToString(std::string file_path) {
   std::ifstream input_file(file_path);
@@ -210,7 +211,7 @@ bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
   for (int i = 0; i < row_count; i++) {
     std::vector<char> row_vals;
     getRowVals(i, puzzle, row_vals);
-    std::vector<int> crit_vect = getCriteriaAtIndex(6, row_crit);
+    std::vector<int> crit_vect = getCriteriaAtIndex(i, row_crit);
     if (!isStraightSolved(row_vals, crit_vect)) {
       return false;
     }
@@ -218,7 +219,7 @@ bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
   for (int i = 0; i < col_count; i++) {
     std::vector<char> col_vals;
     getColVals(i, puzzle, col_vals);
-    std::vector<int> crit_vect = getCriteriaAtIndex(6, col_crit);
+    std::vector<int> crit_vect = getCriteriaAtIndex(i, col_crit);
     if (!isStraightSolved(col_vals, crit_vect)) {
       return false;
     }
@@ -254,6 +255,9 @@ bool solvePuzzle(int col_count, int row_count,
     copyPuzzle(puzzle, copy);
     int q_row, q_col;
     std::tie(q_row, q_col) = findFirstUnsolvedSquare(copy);
+    if (q_row == -1 && q_col == -1) {
+      return false;
+    }
     copy[q_row][q_col] = possible_vals[i];
     std::vector<char> row_vals, col_vals;
     getRowVals(q_row, copy, row_vals);
@@ -271,27 +275,3 @@ bool solvePuzzle(int col_count, int row_count,
   }
   return false;
 }
-
-// bool solvePuzzle(std::string file_path) {
-//   std::cout << file_path << std::endl;
-//   return true;
-//   //   if (findFirstZero(puzzle) == -1) {
-//   //     copyPuzzle(puzzle, solved_puzzle);
-//   //     return true;
-//   //   }
-//   //   for (int i = 1; i < 10; ++i) {
-//   //     int copy[81];
-//   //     copyPuzzle(puzzle, copy);
-//   //     int first_zero = findFirstZero(copy);
-//   //     copy[first_zero] = i;
-//   //     if (!isPuzzleValid(copy)) {
-//   //       continue;
-//   //     }
-//   //     bool solved = solvePuzzle(copy, solved_puzzle);
-//   //     if (!solved) {
-//   //       continue;
-//   //     }
-//   //     return true;
-//   //   }
-//   //   return false;
-// }
