@@ -54,11 +54,6 @@ bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
 std::tuple<int, int>
 findFirstUnsolvedSquare(std::vector<std::vector<char>> &puzzle);
 
-// defined
-//-----
-// undefined
-
-// follow sudoku format
 bool solvePuzzle(int col_count, int row_count,
                  std::vector<std::vector<int>> &col_crit,
                  std::vector<std::vector<int>> &row_crit,
