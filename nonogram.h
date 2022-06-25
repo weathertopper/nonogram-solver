@@ -12,6 +12,8 @@ extern const char unknown_char;
 extern const char filled_char;
 extern const char empty_char;
 
+extern const std::vector<char> possible_vals;
+
 std::string readFileToString(std::string file_path);
 
 void loadCriteriaVector(std::string crit_as_string,
@@ -41,6 +43,8 @@ void getColVals(int col_index, std::vector<std::vector<char>> &puzzle,
 std::vector<int> getCriteriaAtIndex(int crit_index,
                                     std::vector<std::vector<int>> &crit_vect);
 
+bool isStraightValid(std::vector<char> &vals, std::vector<int> &crit_vect);
+
 bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect);
 
 bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
@@ -55,12 +59,10 @@ findFirstUnsolvedSquare(std::vector<std::vector<char>> &puzzle);
 // undefined
 
 // follow sudoku format
-void solvePuzzle(std::vector<std::vector<int>> &col_crit,
+bool solvePuzzle(int col_count, int row_count,
+                 std::vector<std::vector<int>> &col_crit,
                  std::vector<std::vector<int>> &row_crit,
                  std::vector<std::vector<char>> &puzzle,
                  std::vector<std::vector<char>> &solved_puzzle);
-
-// hard part
-bool isStraightValid(std::vector<char> &vals, std::vector<int> &crit_vect);
 
 #endif

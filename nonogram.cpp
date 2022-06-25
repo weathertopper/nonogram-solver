@@ -17,6 +17,8 @@ const char unknown_char = '?';
 const char filled_char = '#';
 const char empty_char = '.';
 
+const std::vector<char> possible_vals{filled_char, empty_char};
+
 // possible improvement-- flatten puzzle to 1-D vector to see if that improves
 // timing
 
@@ -145,6 +147,35 @@ std::vector<int> getCriteriaAtIndex(int crit_index,
   return crit_vect[crit_index];
 }
 
+bool isStraightValid(std::vector<char> &vals, std::vector<int> &crit_vect) {
+  std::string val_string(vals.begin(), vals.end());
+
+  std::string filled;
+  filled += filled_char;
+
+  std::string empty;
+  empty += empty_char;
+
+  std::string unknown;
+  unknown += unknown_char;
+
+  std::string zero_plus = "(\\" + empty + "|\\" + unknown + ")*";
+  std::string one_plus = "(\\" + empty + "|\\" + unknown + ")+";
+  std::string hit = ("(" + filled + "|\\" + unknown + ")");
+  std::string reg;
+  reg = zero_plus;
+  for (int i = 0; i < crit_vect.size(); i++) {
+    reg += hit + "{" + std::to_string(crit_vect[i]) + "}";
+    if (i != crit_vect.size() - 1) {
+      reg += one_plus;
+    }
+  }
+  reg += zero_plus;
+  std::regex expected_val_string(reg);
+
+  return regex_match(val_string, expected_val_string);
+}
+
 bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect) {
 
   std::string val_string(vals.begin(), vals.end());
@@ -173,8 +204,8 @@ bool isStraightSolved(std::vector<char> &vals, std::vector<int> &crit_vect) {
   return regex_match(val_string, expected_val_string);
 }
 
-bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int col_count,
-                    int row_count, std::vector<std::vector<int>> &col_crit,
+bool isPuzzleSolved(std::vector<std::vector<char>> &puzzle, int &col_count,
+                    int &row_count, std::vector<std::vector<int>> &col_crit,
                     std::vector<std::vector<int>> &row_crit) {
   for (int i = 0; i < row_count; i++) {
     std::vector<char> row_vals;
@@ -208,57 +239,38 @@ findFirstUnsolvedSquare(std::vector<std::vector<char>> &puzzle) {
   return std::make_tuple(-1, -1);
 }
 
-// ---
+bool solvePuzzle(int col_count, int row_count,
+                 std::vector<std::vector<int>> &col_crit,
+                 std::vector<std::vector<int>> &row_crit,
+                 std::vector<std::vector<char>> &puzzle,
+                 std::vector<std::vector<char>> &solved_puzzle) {
 
-void solvePuzzle(std::string file_str, std::string output_file_path) {}
-
-bool isStraightValid(char *subsection) { return true; }
-
-// bool isSubsectionValid(int *subsection) {
-//   int zero_to_nine[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-//   for (int i = 0; i < 9; ++i) {
-//     int sub_val = subsection[i];
-//     if (sub_val == 0) {
-//       continue;
-//     }
-//     if (zero_to_nine[sub_val] == 0) {
-//       return false;
-//     }
-//     zero_to_nine[sub_val] = 0;
-//   }
-//   return true;
-// }
-
-// bool isPuzzleValid(int *puzzle) {
-//   int zero_to_eight[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-//   for (int i = 0; i < 9; ++i) {
-//     int row_vals[9];
-//     getRowVals(puzzle, i, row_vals);
-//     if (!isSubsectionValid(row_vals)) {
-//       return false;
-//     }
-//     int col_vals[9];
-//     getColVals(puzzle, i, col_vals);
-//     if (!isSubsectionValid(col_vals)) {
-//       return false;
-//     }
-//     int box_vals[9];
-//     getBoxVals(puzzle, i, box_vals);
-//     if (!isSubsectionValid(box_vals)) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
-
-// int findFirstZero(int *puzzle) {
-//   for (int i = 0; i < 81; ++i) {
-//     if (puzzle[i] == 0) {
-//       return i;
-//     }
-//   }
-//   return -1;
-// }
+  if (isPuzzleSolved(puzzle, col_count, row_count, col_crit, row_crit)) {
+    copyPuzzle(puzzle, solved_puzzle);
+    return true;
+  }
+  for (int i = 0; i < possible_vals.size(); i++) {
+    std::vector<std::vector<char>> copy;
+    copyPuzzle(puzzle, copy);
+    int q_row, q_col;
+    std::tie(q_row, q_col) = findFirstUnsolvedSquare(copy);
+    copy[q_row][q_col] = possible_vals[i];
+    std::vector<char> row_vals, col_vals;
+    getRowVals(q_row, copy, row_vals);
+    getColVals(q_col, copy, col_vals);
+    if (!isStraightValid(row_vals, row_crit[q_row]) ||
+        !isStraightValid(col_vals, col_crit[q_col])) {
+      continue;
+    }
+    bool solved = solvePuzzle(col_count, row_count, col_crit, row_crit, copy,
+                              solved_puzzle);
+    if (!solved) {
+      continue;
+    }
+    return true;
+  }
+  return false;
+}
 
 // bool solvePuzzle(std::string file_path) {
 //   std::cout << file_path << std::endl;

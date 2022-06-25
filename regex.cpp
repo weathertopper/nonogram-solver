@@ -4,7 +4,12 @@
 
 using namespace std;
 int main() {
-  string a = "##...#.#..";
+
+  // testing for validity now
+
+  //   string a = "??##...#?#..."; // match
+
+  string a = "????###??#."; // no match
 
   vector<int> crit{2, 1, 1};
   const char unknown_char = '?';
@@ -17,10 +22,15 @@ int main() {
   string empty;
   empty += empty_char;
 
-  string zero_plus = "(\\" + empty + "*)";
-  string one_plus = "(\\" + empty + ")+";
+  string unknown;
+  unknown += unknown_char;
+
+  cout << "string " << a << endl;
+
+  string zero_plus = "(\\" + empty + "|\\" + unknown + ")*";
+  string one_plus = "(\\" + empty + "|\\" + unknown + ")+";
   //   string correct_reg = "(\\.*)(#){2}(\\.)+(#){1}(\\.)+(#){1}(\\.*)";
-  string hit = ("(" + filled + ")");
+  string hit = ("(" + filled + "|\\" + unknown + ")");
 
   //   cout << "correct: " << correct_reg << endl;
 
@@ -34,7 +44,7 @@ int main() {
     }
   }
   reg += zero_plus;
-  cout << "    reg: " << reg << endl;
+  cout << "reg: " << reg << endl;
   regex b(reg); // Geek followed by any
                 // character
 
